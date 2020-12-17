@@ -21,7 +21,7 @@ function activate( context ) {
 
 		if ( jsdocSignature ) {
 			vscode.window.showInputBox( {
-				prompt: 'JSDoc signature',
+				prompt: 'JSDoc signature (copy it with ctrl/cmd+c)',
 				value: jsdocSignature
 			} );
 		} else {
