@@ -13,11 +13,8 @@ module.exports =  {
 		}
 
 		const baseFileName = parsedPath.fileName.replace( /\.js$/, '' );
-
 		const assumedClassName = baseFileName[ 0 ].toUpperCase() + baseFileName.substr( 1 );
 
-
-		// module:core/plugin~Plugin
 		return `{module:${ parsedPath.package }/${ assumedClassName.toLowerCase() }~${ assumedClassName }}`;
 	},
 

@@ -16,16 +16,17 @@ function activate( context ) {
 	let disposable = vscode.commands.registerCommand( 'cke5-mate.jsdocSignature', function() {
 		const editor = vscode.window.activeTextEditor;
 
-		if ( !editor || editor.document.isUntitled ) {
-			return;
+		const jsdocSignature = editor && !editor.document.isUntitled ?
+			common.getJsdocSignature( editor.document.uri.path ) : null;
+
+		if ( jsdocSignature ) {
+			vscode.window.showInputBox( {
+				prompt: 'JSDoc signature',
+				value: jsdocSignature
+			} );
+		} else {
+			vscode.window.showInformationMessage( 'Unable to look up signature for this file :(' );
 		}
-
-		const jsdocSignature = common.getJsdocSignature( editor.document.uri.path );
-
-		vscode.window.showInputBox( {
-			prompt: 'JSDoc signature',
-			value: jsdocSignature
-		} );
 	} );
 
 	context.subscriptions.push( disposable );
