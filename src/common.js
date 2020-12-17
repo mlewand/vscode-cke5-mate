@@ -8,14 +8,21 @@ module.exports =  {
 	getJsdocSignature( filePath ) {
 		const parsedPath = this._parseCKE5Path( filePath );
 
-		if ( !parsedPath ) {
+		if ( !parsedPath || !parsedPath.path.startsWith( 'src/' ) ) {
 			return null;
 		}
 
 		const baseFileName = parsedPath.fileName.replace( /\.js$/, '' );
+
+		const jsdocPath = Array.from( parsedPath.path.split( '/' ) ).slice( 1 );
+		jsdocPath.pop();
+		jsdocPath.push( baseFileName );
+		// Add package name to the beginning.
+		jsdocPath.splice( 0, 0, parsedPath.package );
+
 		const assumedClassName = baseFileName[ 0 ].toUpperCase() + baseFileName.substr( 1 );
 
-		return `{module:${ parsedPath.package }/${ assumedClassName.toLowerCase() }~${ assumedClassName }}`;
+		return `{module:${ jsdocPath.join( '/' ) }~${ assumedClassName }}`;
 	},
 
 	/**

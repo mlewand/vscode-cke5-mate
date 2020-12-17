@@ -15,16 +15,23 @@ describe( 'Extension Test Suite', () => {
 		describe( 'getJsdocPath()', () => {
 			it( 'returns a valid path on Windows', () => {
 				const windowsPath = '/f:/Development/ckeditor5/packages/ckeditor5-core/src/plugin.js';
-				const ret = common.getJsdocSignature( windowsPath );
-
-				assert.strictEqual( '{module:core/plugin~Plugin}', ret );
+				expect( common.getJsdocSignature( windowsPath ) ).to.equal( '{module:core/plugin~Plugin}' );
 			} );
 
 			it( 'returns a valid path on Unix', () => {
-				const windowsPath = '/dev/ckeditor5/packages/ckeditor5-core/src/command.js';
-				const ret = common.getJsdocSignature( windowsPath );
+				const unixPath = '/dev/ckeditor5/packages/ckeditor5-core/src/command.js';
+				expect( common.getJsdocSignature( unixPath ) ).to.equal( '{module:core/command~Command}' );
+			} );
 
-				assert.strictEqual( '{module:core/command~Command}', ret );
+			it( 'returns a valid path for file in a subdirectory', () => {
+				const filePath = '/dev/ckeditor5/packages/ckeditor5-engine/src/view/element.js';
+				expect( common.getJsdocSignature( filePath ) ).to.equal( '{module:engine/view/element~Element}' );
+			} );
+
+			it( 'returns proper value for files not in src directory', () => {
+				const filePath = '/dev/ckeditor5/packages/ckeditor5-engine/tests/view/element.js';
+
+				expect( common.getJsdocSignature( filePath ) ).to.be.null;
 			} );
 		} );
 
